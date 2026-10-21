@@ -1,0 +1,301 @@
+<title>Les Jardins d'Alex</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Concept : bandeaux alternés (photo plein cadre, pierre claire, vert profond à bord courbe, vert vif) autour de cartes photo larges. Palette tirée des murets de pierre, pelouses et feuillages des photos. */
+:root{
+  --font-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --font-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --bg:#f2f4ed;            /* pierre verdie */
+  --bg-tint:#e3e9d9;       /* sauge claire */
+  --surface:#ffffff;
+  --fg:#17261c;
+  --muted:#4b5c50;
+  --accent:#2c6a3c;        /* vert pelouse */
+  --accent-fg:#ffffff;
+  --deep:#143122;          /* vert feuillage profond */
+  --deep-fg:#eef3e7;
+  --deep-muted:#b9c9bb;
+  --stone:#c9b78f;         /* pierre dorée des murets */
+  --line:#cfd8c6;
+  --header-bg:#f2f4ed;
+  --on-img:#ffffff;
+  --shadow:0 10px 30px rgba(20,49,34,.14);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1b14;--bg-tint:#16271c;--surface:#1b2e22;--fg:#e9f0e4;--muted:#a9bbad;--accent:#7fc58f;--accent-fg:#0d1c12;
+  --deep:#0a140e;--deep-fg:#eef3e7;--deep-muted:#a9bbad;--stone:#c9b78f;--line:#2b4232;--header-bg:#0f1b14;--shadow:0 10px 30px rgba(0,0,0,.45);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1b14;--bg-tint:#16271c;--surface:#1b2e22;--fg:#e9f0e4;--muted:#a9bbad;--accent:#7fc58f;--accent-fg:#0d1c12;
+  --deep:#0a140e;--deep-fg:#eef3e7;--deep-muted:#a9bbad;--stone:#c9b78f;--line:#2b4232;--header-bg:#0f1b14;--shadow:0 10px 30px rgba(0,0,0,.45);color-scheme:dark}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:18px;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--header-bg)}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3{font-family:var(--font-display);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{width:100%;max-width:1200px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:.65rem 1.4rem;border-radius:999px;border:2px solid transparent;font:600 1rem var(--font-body);text-decoration:none;cursor:pointer;transition:transform .15s,background .15s,color .15s,border-color .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);color:var(--accent-fg)}
+.btn-primary:hover{filter:brightness(1.1)}
+.btn-ghost{background:transparent;border-color:currentColor}
+.btn-ghost:hover{background:rgba(255,255,255,.14)}
+.btn-line{border-color:var(--accent);color:var(--accent);background:transparent}
+.btn-line:hover{background:var(--accent);color:var(--accent-fg)}
+
+/* En-tête */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--header-bg);border-bottom:1px solid var(--line)}
+.site-header .wrap{display:flex;align-items:center;gap:1rem;min-height:72px}
+.logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;font:800 1.3rem var(--font-display);letter-spacing:-.01em;color:var(--fg);white-space:nowrap}
+.logo svg{width:34px;height:34px;flex:none}
+.logo small{display:block;font:600 .62rem var(--font-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.nav{margin-left:auto}
+.nav ul{display:flex;gap:.25rem;list-style:none;margin:0;padding:0}
+.nav a{display:flex;align-items:center;min-height:44px;padding:0 .9rem;border-radius:999px;text-decoration:none;font-weight:600;color:var(--fg)}
+.nav a:hover{background:var(--bg-tint)}
+.nav a[aria-current="page"]{background:var(--deep);color:var(--deep-fg)}
+.head-cta{white-space:nowrap}
+.burger{display:none;width:48px;height:48px;border:1px solid var(--line);border-radius:12px;background:transparent;color:var(--fg);cursor:pointer;align-items:center;justify-content:center}
+.burger span,.burger span::before,.burger span::after{display:block;width:22px;height:2px;background:currentColor;border-radius:2px;position:relative;transition:transform .2s,background .2s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-7px}.burger span::after{top:7px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:980px){
+  .burger{display:inline-flex;margin-left:.25rem}
+  .head-cta{margin-left:auto}
+  .nav{position:absolute;left:0;right:0;top:100%;margin:0;background:var(--header-bg);border-bottom:1px solid var(--line);padding:.5rem max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px));display:none;box-shadow:var(--shadow)}
+  .nav.open{display:block}
+  .nav ul{flex-direction:column}
+  .nav a{min-height:48px;font-size:1.05rem}
+}
+@media (max-width:420px){.logo small{display:none}.head-cta .label{display:none}.head-cta{padding:.65rem .9rem}}
+
+/* Hero */
+.hero{position:relative;min-height:calc(100svh - 72px);display:flex;align-items:flex-end;color:var(--on-img);isolation:isolate}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 55%;z-index:-2}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,22,14,.25) 0%,rgba(10,22,14,.2) 35%,rgba(10,22,14,.82) 100%)}
+.hero .wrap{padding-block:4rem 5.5rem}
+.hero .eyebrow{color:#d6ecd3}
+.hero h1{font-size:clamp(2.3rem,6vw,4.6rem);font-weight:800;max-width:15ch;margin:.7rem 0 1.1rem}
+.hero p.lead{max-width:44ch;font-size:1.2rem;color:#f0f5ec}
+.hero .actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.8rem}
+
+/* À propos */
+.about{background:var(--bg-tint);padding-block:5rem;min-height:100svh;display:flex;align-items:center;margin-top:-2.5rem;border-radius:2.5rem 2.5rem 0 0;position:relative}
+.about .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:center}
+.about .photo{border-radius:1.5rem;overflow:hidden;box-shadow:var(--shadow)}
+.about .photo img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:70% 50%}
+.card-about{background:var(--surface);border-radius:1.5rem;padding:2.4rem;box-shadow:var(--shadow);margin-left:-5rem;position:relative}
+.card-about h2{font-size:clamp(1.8rem,3.4vw,2.6rem);margin:.6rem 0 1rem}
+.card-about p+p{margin-top:.9rem}
+.facts{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.5rem 0 0;padding:0;list-style:none}
+.facts li{border:1px solid var(--line);border-radius:999px;padding:.35rem .9rem;font-size:.95rem;color:var(--muted)}
+.facts b{color:var(--fg)}
+@media (max-width:860px){
+  .about{min-height:0;padding-block:3.5rem}
+  .about .grid{grid-template-columns:1fr;gap:0}
+  .card-about{margin:-3rem 12px 0;padding:1.6rem}
+}
+
+/* Aménager */
+.build{background:var(--bg);padding-block:5rem 7rem;min-height:100svh;display:flex;align-items:center}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.5rem;margin-bottom:2.5rem}
+.sec-head h2{font-size:clamp(2rem,4vw,3.1rem);margin-top:.6rem}
+.sec-head p{max-width:44ch;color:var(--muted)}
+.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin:0;padding:0;list-style:none}
+.pcard{display:flex;flex-direction:column;background:var(--surface);border-radius:1.2rem;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);height:100%}
+.pcard img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.pcard div{padding:1.1rem 1.2rem 1.4rem}
+.pcard h3{font-size:1.25rem;margin-bottom:.4rem}
+.pcard p{font-size:1rem;color:var(--muted)}
+.pcard:nth-child(even){margin-top:1.6rem}
+@media (max-width:1000px){.cards4{grid-template-columns:repeat(2,1fr)}.pcard:nth-child(even){margin-top:0}.build{min-height:0}}
+@media (max-width:560px){.cards4{grid-template-columns:1fr}}
+
+/* Entretenir */
+.care{background:var(--deep);color:var(--deep-fg);border-radius:3rem 3rem 0 0;margin-top:-3rem;position:relative;padding-block:5rem;min-height:100svh;display:flex;align-items:center}
+.care .eyebrow{color:var(--stone)}
+.care .sec-head p{color:var(--deep-muted)}
+.care-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1.1rem;margin:0;padding:0;list-style:none}
+.care-grid li{grid-column:span 2}
+.care-grid li:nth-child(-n+2){grid-column:span 3}
+.ccard{position:relative;display:block;border-radius:1.2rem;overflow:hidden;min-height:260px;height:100%;color:var(--on-img);isolation:isolate}
+.ccard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .5s}
+.ccard:hover img{transform:scale(1.04)}
+.ccard::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(8,18,12,0) 30%,rgba(8,18,12,.88) 100%)}
+.ccard div{position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.2rem}
+.ccard h3{font-size:1.25rem}
+.ccard p{font-size:1rem;color:#e6efe2;margin-top:.2rem}
+@media (max-width:900px){.care{min-height:0}.care-grid{grid-template-columns:repeat(2,1fr)}.care-grid li,.care-grid li:nth-child(-n+2){grid-column:span 1}.care-grid li:last-child{grid-column:span 2}}
+@media (max-width:560px){.care-grid{grid-template-columns:1fr}.care-grid li:last-child{grid-column:span 1}.ccard{min-height:230px}}
+
+/* Contact */
+.contact{position:relative;isolation:isolate;color:var(--on-img);margin-top:-3rem;border-radius:3rem 3rem 0 0;overflow:hidden;min-height:90svh;display:flex;align-items:center;padding-block:5rem 4rem}
+.contact>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 60%;z-index:-2}
+.contact::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(14,40,25,.92) 0%,rgba(14,40,25,.78) 55%,rgba(14,40,25,.35) 100%)}
+.contact h2{font-size:clamp(2rem,4.6vw,3.6rem);max-width:16ch;margin:.7rem 0 1rem}
+.contact .eyebrow{color:#d6ecd3}
+.contact p.lead{max-width:46ch;font-size:1.15rem}
+.contact .actions{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.6rem}
+.coords{display:grid;gap:.6rem;margin-top:1.8rem;max-width:520px}
+.coord{display:flex;align-items:center;justify-content:space-between;gap:.8rem;border:1px solid rgba(255,255,255,.35);border-radius:14px;padding:.55rem .6rem .55rem 1rem;background:rgba(10,24,16,.45)}
+.coord span{min-width:0;overflow-wrap:anywhere;user-select:all}
+.copy{min-height:44px;min-width:44px;padding:0 .9rem;border:0;border-radius:10px;background:rgba(255,255,255,.18);color:var(--on-img);font:600 .95rem var(--font-body);cursor:pointer}
+.copy:hover{background:rgba(255,255,255,.32)}
+
+/* Pied de page compact */
+.footer{background:var(--deep);color:var(--deep-fg);padding-block:1.4rem;font-size:.95rem}
+.footer .wrap{display:flex;flex-wrap:wrap;gap:.6rem 2rem;align-items:center;justify-content:space-between}
+.footer nav{display:flex;flex-wrap:wrap;gap:.2rem 1rem}
+.footer a{display:inline-flex;align-items:center;min-height:44px;color:var(--deep-fg)}
+.footer .name{font:800 1.1rem var(--font-display)}
+.footer small{color:var(--deep-muted)}
+
+/* Message pages à venir */
+.toast{position:fixed;left:50%;bottom:max(20px,env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;pointer-events:none;background:var(--deep);color:var(--deep-fg);border:1px solid var(--stone);border-radius:14px;padding:.8rem 1.2rem;max-width:min(92vw,440px);z-index:90;transition:opacity .25s,transform .25s;box-shadow:var(--shadow);font-size:.95rem}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="#accueil" aria-label="Les Jardins d'Alex, accueil">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="var(--accent)"/><path d="M12 29c0-9 5-15 16-17-1 10-6 16-14 16" fill="var(--accent-fg)"/><path d="M12 30c3-6 7-10 12-13" stroke="var(--accent)" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+      <span>Les Jardins d'Alex<small>Aménagement paysager</small></span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Navigation principale">
+      <ul>
+        <li><a href="#accueil" aria-current="page">Accueil</a></li>
+        <li><a href="#prestations" data-soon>Prestations</a></li>
+        <li><a href="#realisations" data-soon>Réalisations</a></li>
+        <li><a href="#contact-page" data-soon>Contact</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary head-cta" href="tel:+33664103457" aria-label="Appeler le 06 64 10 34 57"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.300.2 2.500.6 3.600.1.300 0 .700-.2 1z"/></svg><span class="label">06 64 10 34 57</span></a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
+</header>
+
+<main id="accueil">
+  <section class="hero" aria-labelledby="h1">
+    <img src="images/hero-jardin-allee.jpg" width="1408" height="768" alt="Jardin de campagne avec pelouse, massifs fleuris et allée de gravier menant à une maison en pierre">
+    <div class="wrap">
+      <p class="eyebrow">Aménagement paysager · Bazemont (78)</p>
+      <h1 id="h1">Des extérieurs dessinés pour être vécus.</h1>
+      <p class="lead">Les Jardins d'Alex aménagent et entretiennent jardins, terrasses et allées à Bazemont et dans ses environs.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#amenager">Voir nos domaines</a>
+        <a class="btn btn-ghost" href="#contact">Parler de votre projet</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" aria-labelledby="h-about">
+    <div class="wrap">
+      <div class="grid">
+        <div class="photo"><img src="images/conception-jardin-tablette.jpg" width="1000" height="545" loading="lazy" alt="Deux personnes examinent sur une tablette le plan 3D d'un jardin, devant la pelouse et le muret de pierre réalisés"></div>
+        <div class="card-about">
+          <p class="eyebrow">À propos</p>
+          <h2 id="h-about">Un paysagiste installé à Bazemont</h2>
+          <p>Les Jardins d'Alex est une entreprise d'aménagement paysager dirigée par Alexandre Noc, dans les Yvelines.</p>
+          <p>Pour créer un jardin, poser une terrasse ou entretenir un espace existant, le plus simple est de décrire votre terrain et ce que vous attendez de lui.</p>
+          <ul class="facts">
+            <li><b>Bazemont</b> (78)</li>
+            <li>Aménagement paysager</li>
+            <li>SIREN <b>894 931 880</b></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="build" id="amenager" aria-labelledby="h-build">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">Aménager</p><h2 id="h-build">Créer et transformer votre extérieur</h2></div>
+        <p>Jardin, terrasse, allée ou muret : chaque projet part de votre terrain et de la façon dont vous l'utilisez.</p>
+      </div>
+      <ul class="cards4">
+        <li><article class="pcard"><img src="images/creation-jardin-contemporain.jpg" width="1000" height="545" loading="lazy" alt="Jeune paysagiste plantant un massif dans un jardin contemporain, devant une maison à façade grise" style="object-position:60% 50%"><div><h3>Création d'espaces verts</h3><p>Massifs, pelouse et cheminements dessinés autour de la maison.</p></div></article></li>
+        <li><article class="pcard"><img src="images/terrasse-bois-chantier.jpg" width="1000" height="545" loading="lazy" alt="Ouvrier posant les lames d'une terrasse en bois devant une maison en pierre aux volets bleus" style="object-position:65% 50%"><div><h3>Terrasse en bois</h3><p>Lames et finitions posées sur un terrain préparé.</p></div></article></li>
+        <li><article class="pcard"><img src="images/allee-pavee-muret-pierre.jpg" width="1000" height="545" loading="lazy" alt="Allée dallée de pierre claire longeant un muret fleuri, menant à une maison de campagne" style="object-position:30% 50%"><div><h3>Allées et dallages</h3><p>Pierre ou pavés pour relier la maison au jardin.</p></div></article></li>
+        <li><article class="pcard"><img src="images/maconnerie-paysagere-escalier.jpg" width="1000" height="545" loading="lazy" alt="Maçon montant un escalier et un muret en pierre sèche dans un jardin en pente" style="object-position:40% 55%"><div><h3>Maçonnerie paysagère</h3><p>Murets, marches et soutènements en pierre.</p></div></article></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="care" aria-labelledby="h-care">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="eyebrow">Entretenir</p><h2 id="h-care">Garder le jardin beau, saison après saison</h2></div>
+        <p>De la tonte à l'élagage, un entretien régulier pour que le travail d'aménagement dure.</p>
+      </div>
+      <ul class="care-grid">
+        <li><a class="ccard" href="#contact"><img src="images/tonte-pelouse.jpg" width="900" height="502" loading="lazy" alt="Jardinier tondant une pelouse devant une maison aux volets bleus et aux rosiers" style="object-position:30% 50%"><div><h3>Tonte et pelouse</h3><p>Entretien régulier des surfaces engazonnées.</p></div></a></li>
+        <li><a class="ccard" href="#contact"><img src="images/taille-haie-laurier.jpg" width="900" height="672" loading="lazy" alt="Jardinier équipé d'un casque anti-bruit taillant une haie avec un taille-haie thermique" style="object-position:35% 50%"><div><h3>Taille de haies</h3><p>Mise en forme des haies et clôtures végétales.</p></div></a></li>
+        <li><a class="ccard" href="#contact"><img src="images/elagage-chene.jpg" width="900" height="491" loading="lazy" alt="Élagueur casqué suspendu à une corde dans un chêne, tronçonneuse en main" style="object-position:35% 50%"><div><h3>Élagage</h3><p>Travail en hauteur, avec corde et équipement.</p></div></a></li>
+        <li><a class="ccard" href="#contact"><img src="images/dessouchage.jpg" width="900" height="491" loading="lazy" alt="Dessoucheuse jaune broyant une souche d'arbre au milieu d'une pelouse" style="object-position:60% 50%"><div><h3>Dessouchage</h3><p>Retrait des souches pour libérer le terrain.</p></div></a></li>
+        <li><a class="ccard" href="#contact"><img src="images/ramassage-feuilles.jpg" width="900" height="491" loading="lazy" alt="Jardinier ramassant des feuilles mortes dans un sac de jardin au bord d'une allée de gravier" style="object-position:70% 50%"><div><h3>Ramassage des feuilles</h3><p>Allées et massifs dégagés à l'automne.</p></div></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="h-contact">
+    <img src="images/jardin-robot-tonte-terrasse.jpg" width="1408" height="768" loading="lazy" alt="Jardin avec pelouse tondue par un robot, allée en pavés, muret de pierre et terrasse en bois au fond">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2 id="h-contact">Un projet pour votre jardin ?</h2>
+      <p class="lead">Appelez ou écrivez à Alexandre Noc pour décrire votre terrain et ce que vous souhaitez en faire.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="tel:+33664103457">Appeler</a>
+        <a class="btn btn-ghost" href="mailto:alex.noc78@gmail.com?subject=Demande%20de%20contact">Écrire un e-mail</a>
+      </div>
+      <div class="coords">
+        <div class="coord"><span>06 64 10 34 57</span><button class="copy" type="button" data-copy="06 64 10 34 57">Copier</button></div>
+        <div class="coord"><span>alex.noc78@gmail.com</span><button class="copy" type="button" data-copy="alex.noc78@gmail.com">Copier</button></div>
+        <div class="coord"><span>Bazemont (78)</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div><span class="name">Les Jardins d'Alex</span> <small>· Bazemont (78) · SIREN 894 931 880</small></div>
+    <nav aria-label="Pied de page">
+      <a href="tel:+33664103457">06 64 10 34 57</a>
+      <a href="mailto:alex.noc78@gmail.com">alex.noc78@gmail.com</a>
+      <a href="#mentions" data-soon>Mentions légales</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var burger=document.getElementById('burger'),menu=document.getElementById('menu'),toast=document.getElementById('toast'),t;
+  function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(t);t=setTimeout(function(){toast.classList.remove('show')},2800)}
+  function setMenu(o){menu.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);burger.setAttribute('aria-label',o?'Fermer le menu':'Ouvrir le menu')}
+  burger.addEventListener('click',function(){setMenu(!menu.classList.contains('open'))});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open')){setMenu(false);burger.focus()}});
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){
+    if(a.hasAttribute('data-soon')){e.preventDefault();say('Cette page sera créée après validation de la maquette.')}
+    setMenu(false)})});
+  document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+    var v=b.getAttribute('data-copy');
+    function ok(){say('Copié : '+v)}
+    function fallback(){var r=document.createRange(),s=b.previousElementSibling;r.selectNodeContents(s);var sel=getSelection();sel.removeAllRanges();sel.addRange(r);say('Sélectionné : appuyez sur Ctrl+C')}
+    try{navigator.clipboard.writeText(v).then(ok,fallback)}catch(e){fallback()}})});
+})();
+</script>
