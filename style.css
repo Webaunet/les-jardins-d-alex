@@ -326,3 +326,12 @@ a{color:inherit}
 .toast{position:fixed;left:50%;bottom:max(20px,env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;pointer-events:none;background:var(--deep);color:var(--deep-fg);border:1px solid var(--stone);border-radius:14px;padding:.8rem 1.2rem;max-width:min(92vw,440px);z-index:90;transition:opacity .25s,transform .25s;box-shadow:var(--shadow);font-size:.95rem}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* Hauteurs de sections : environ 100 % de l'écran */
+.phead,.phead--short,.fanhead{min-height:calc(100svh - 72px)}
+.gallery,.tallsec,.tips,.band,.bandstone{min-height:100svh;display:flex;align-items:center}
+.gallery>.wrap,.tallsec>.wrap,.tips>.wrap,.band>.wrap,.bandstone>.wrap{width:100%}
+.contact{min-height:95svh}
+.legal--solo{min-height:calc(100svh - 72px);margin-top:0;border-radius:0;display:flex;align-items:flex-start;padding-block:4rem 6rem}
+.legal--solo .wrap{width:100%}
+.legal h1{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:800;margin:.6rem 0 2rem}
