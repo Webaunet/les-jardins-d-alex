@@ -45,7 +45,7 @@ def header(cur):
   <div class="wrap">
     <a class="logo" href="%s" aria-label="Les Jardins d'Alex, accueil">
       <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="var(--accent)"/><path d="M12 29c0-9 5-15 16-17-1 10-6 16-14 16" fill="var(--accent-fg)"/><path d="M12 30c3-6 7-10 12-13" stroke="var(--accent)" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
-      <span>Les Jardins d'Alex<small>Aménagement paysager</small></span>
+      <span>Les Jardins d'Alex</span>
     </a>
     <nav class="nav" id="menu" aria-label="Navigation principale"><ul>%s</ul></nav>
     <a class="btn btn-primary head-cta" href="%s" aria-label="Appeler le %s">%s<span class="label">%s</span></a>
